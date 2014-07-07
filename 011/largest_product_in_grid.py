@@ -22,6 +22,8 @@ rows = grid_in_string.split("\n")
 grid = [[int(val) for val in row.split()] for row in rows]
 length, height = len(grid), len(grid[0])
 
+CONTINUOUS = 4
+
 def print_grid(grid):
     for row in grid:
         string = ""
@@ -29,18 +31,12 @@ def print_grid(grid):
             string += "%2d, " % val
         print string
 
-
-print_grid(grid)
-print "\n", length, height, "\n"
-
-CONTINUOUS = 4
-
 def check_horizontal(grid):
     max_product = 0
     for idx_row in range(height):
         for idx_col in range(length):
             product = 1
-            if idx_col + CONTINUOUS > length: 
+            if idx_col + CONTINUOUS > length:
                 #print idx_col, idx_col + CONTINUOUS, length, grid[idx_row][idx_col]
                 break
             for diff in range(CONTINUOUS):
@@ -56,7 +52,7 @@ def check_vertical(grid):
     for idx_col in range(length):
         for idx_row in range(height):
             product = 1
-            if idx_row + CONTINUOUS > length: 
+            if idx_row + CONTINUOUS > length:
                 #print idx_col, idx_col + CONTINUOUS, length, grid[idx_row][idx_col]
                 break
             for diff in range(CONTINUOUS):
@@ -67,12 +63,54 @@ def check_vertical(grid):
                     product, idx_row, idx_col, grid[idx_row][idx_col])
     return max_product
 
-print check_vertical(grid)
-
 def check_diagnol_tl_br(grid):#top left - bottom right
-    return 0
+    max_product = 0
+    for idx_col in range(length):
+        if idx_col + CONTINUOUS > length:
+            break
+        for idx_row in range(height):
+            product = 1
+            if idx_row + CONTINUOUS > length:
+                break
+            for diff in range(CONTINUOUS):
+                product *= grid[idx_row+diff][idx_col+diff]
+            if product > max_product:
+                max_product = product
+                print "%9d %2d %2d %2d" % (
+                    product, idx_row, idx_col, grid[idx_row][idx_col])
+    return max_product
 
 def check_diagnol_tr_bl(grid):#top right - bottom left
-    return 0
+    max_product = 0
+    for idx_col in range(length):
+        if idx_col + CONTINUOUS > length:
+            break
+        for idx_row in range(CONTINUOUS-1, height):
+            product = 1
+            for diff in range(CONTINUOUS):
+                product *= grid[idx_row-diff][idx_col+diff]
+            if product > max_product:
+                max_product = product
+                print "%9d %2d %2d %2d" % (
+                    product, idx_row, idx_col, grid[idx_row][idx_col])
+    return max_product
 
+def main(grid):
+    print_grid(grid)
+    print "\n", length, height, "\n"
+    max_product, product = 0, 0
+    product = check_horizontal(grid)
+    if product > max_product:
+        max_product = product
+    product = check_vertical(grid)
+    if product > max_product:
+        max_product = product
+    product = check_diagnol_tl_br(grid)
+    if product > max_product:
+        max_product = product
+    product = check_diagnol_tr_bl(grid)
+    if product > max_product:
+        max_product = product
+    print max_product
 
+main(grid)
