@@ -8,7 +8,7 @@ def next_term(n):
         return 3*n + 1
 
 def find_chain_length(n):
-    global chain_length_dict
+    chain_length_dict
     if chain_length_dict.has_key(n):
         return chain_length_dict[n]
     else:
@@ -18,7 +18,6 @@ def find_chain_length(n):
 
 
 def find_longest_chain():
-    global chain_length_dict
     longest_chain_source, longest_chain_length = None, 0
     for num in range(2, MILLION): 
         chain_length = find_chain_length(num)
