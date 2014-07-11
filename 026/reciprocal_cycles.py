@@ -3,8 +3,8 @@
 
 highest_repetition_qr_dict = {'q':'0.', 'r':[], 'n': 0}
 for divisor in range(2, 1000):
-    qr_dict = {'q':'', 'r':[], 'n': divisor}
-    dividend = 10 if divisor < 10 else (100 if divisor < 100 else 1000)
+    qr_dict = {'q':'0.', 'r':[], 'n': divisor}
+    dividend = 1
     remainder, quotient = None, None
     repetitive = False
     while dividend % divisor !=0:
