@@ -37,10 +37,7 @@ def main():
             for n in range(LIMIT):
                 if not is_quadratic_prime(a, b, n):
                     if n >= ab['n']:
-                        ab['n'] = n
-                        ab['a'] = a
-                        ab['b'] = b
-                        ab['ab'] = a*b
+                        ab = {'a': a, 'b': b, 'ab': a*b, 'n': n}
                     break
     print ab
 
