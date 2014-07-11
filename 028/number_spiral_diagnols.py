@@ -1,3 +1,9 @@
+"""
+(1)
+delta = 2, numbers_on_diagonal = 3, 5, 7, 9
+delta = 4, numbers_on_diagonal = 13, 17, 21, 25
+"""
+
 idx = 1
 sigma = 1
 MATRIX = 1001
