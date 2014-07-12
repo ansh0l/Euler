@@ -42,7 +42,8 @@ def main():
     idx, sigma = 0, 0
     while idx != 11:
         p = get_next_prime()
-        if is_ltr_truncatable_prime(p) and is_rtl_truncatable_prime(p):
+        if set('02468').intersection(str(p)[1:]) == set() and \
+                is_ltr_truncatable_prime(p) and is_rtl_truncatable_prime(p):
             print p, idx
             sigma += p
             idx += 1
