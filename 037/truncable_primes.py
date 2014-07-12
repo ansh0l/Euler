@@ -23,9 +23,9 @@ def is_rtl_truncable_prime(n):
         string_n = string_n[1:]
     return rtl_truncable_prime
 
-def get_next_prime()
+def get_next_prime():
     candidate = primes[-1] + 2
-    while candidate is not in primes
+    while candidate not in primes:
         cab_be_prime = True
         for p in primes:
             if p**2 > candidate:
@@ -47,3 +47,6 @@ def main():
             sigma += p
             idx += 1
     print sigma
+
+if __name__ == "__main__":
+    main()
