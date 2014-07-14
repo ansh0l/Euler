@@ -1,6 +1,4 @@
 MAX = 1000000000
-primes = [2]
-candidate = 3
 
 def is_pandigital(n):
     string_n = str(n)
@@ -19,23 +17,49 @@ def is_pandigital(n):
         return set(string_n) == set('1234')
     return False
 
-while candidate < MAX:
+def get_primes():
+    primes = [2]
+    candidate = 3
+    while candidate**2 < MAX:
+        can_be_prime = True
+        for p in primes:
+            if p**2 > candidate:
+                break
+            elif candidate % p == 0:
+                can_be_prime = False
+                break
+        if can_be_prime:
+            primes.append(candidate)
+        candidate += 2
+    return primes
+
+def is_prime(n, primes):
     can_be_prime = True
     for p in primes:
-        if p**2 > candidate:
+        if p**2 > n:
             break
-        elif candidate % p == 0:
+        elif n % p == 0:
             can_be_prime = False
             break
-    if can_be_prime:
-        primes.append(candidate)
-        print candidate
-    candidate += 2
+    return can_be_prime
 
-primes.reverse()
-print "got primes"
+def main():
+    from itertools import permutations
+    primes = get_primes()
+    max_digit = 9
+    digits = [int(d) for d in "987654321"]
+    digits = "987654321"
+    biggest_pdp_found = False
+    while not biggest_pdp_found:
+        for permutation in permutations(digits, max_digit):
+            number = int(''.join(permutation))
+            if is_prime(number, primes):
+                biggest_pdp_found = True
+                print number
+                break
+        if not biggest_pdp_found:
+            digits = digits[1:]
+            max_digit -= 1
 
-for p in primes:
-    if is_pandigital(p):
-        print p
-        break 
+if __name__ == "__main__":
+    main()
