@@ -6,11 +6,21 @@ and c = (p - a - b)
 """
 
 def are_valid_sides(a, b, p):
-    return p > a + b and a**2 + b**2 == (p - a - b)**2
+    return a**2 + b**2 == (p - a - b)**2
 
+max_solutions = []
 for num in range(3, 1001):
     solutions = []
-    for a in range(1, num - 2):
-        if are_valid_sides(a, num - a, num):
-            solutions.append(a, num - a, num - a - b))
+    for b in range(1, num - 2):
+        for a in range(1, b):
+            if a + b >= num:
+                break
+            elif are_valid_sides(a, b, num):
+                solutions.append([a, b, num - a - b])
+    if len(solutions) > len(max_solutions):
+        print num, solutions
+        max_solutions = solutions
+
+print max_solutions
+
 
