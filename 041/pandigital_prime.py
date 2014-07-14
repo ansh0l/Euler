@@ -1,22 +1,5 @@
 MAX = 1000000000
 
-def is_pandigital(n):
-    string_n = str(n)
-    len_n = len(string_n)
-    if len_n == 9:
-        return set(string_n) == set('123456789')
-    elif len_n == 8:
-        return set(string_n) == set('12345678')
-    elif len_n == 7:
-        return set(string_n) == set('1234567')
-    elif len_n == 6:
-        return set(string_n) == set('123456')
-    elif len_n == 5:
-        return set(string_n) == set('12345')
-    elif len_n == 4:
-        return set(string_n) == set('1234')
-    return False
-
 def get_primes():
     primes = [2]
     candidate = 3
@@ -46,9 +29,14 @@ def is_prime(n, primes):
 def main():
     from itertools import permutations
     primes = get_primes()
-    max_digit = 9
-    digits = [int(d) for d in "987654321"]
-    digits = "987654321"
+    """
+    sum_of_digits = n*(n+1)/2
+    Hence digits can't be "987654321" and "87654321", 
+    since sum_of_digits will be divisible by 3 and numbers won't be primes'
+    Hence max_digit = 7 and not 9
+    """
+    max_digit = 7
+    digits = "7654321" 
     biggest_pdp_found = False
     while not biggest_pdp_found:
         for permutation in permutations(digits, max_digit):
