@@ -1,28 +1,25 @@
+primes = [2]
+
 def get_primes_before_10000():
-    primes = [2]
     candidate = 3
     while candidate < 10000:
         if all(candidate % prime for prime in primes if prime**2 <= candidate):
             primes.append(candidate)
         candidate += 2
-    return primes
-
-def get_primes_hashing_to_same_keywords(primes):
-    prime_count = {}
-    for prime in primes:
-        key = int(''.join(sorted(list(str(prime)))))
-        if prime_count.has_key(key):
-            prime_count[key].append(prime)
-        else:
-            prime_count[key] = [prime]
-    return prime_count
 
 def main():
-    primes = get_primes_before_10000()
-    primes_hash = get_primes_hashing_to_same_keywords(primes)
-    for primes in primes_hash.values():
-        if len(primes) > 2:
-            print primes
+    get_primes_before_10000()
+    idx = 0
+    for p1 in primes:
+        idx += 1
+        if len(str(p1)) < 4:
+            continue
+        for p2 in primes[idx:]:
+            p3 = 2 * p2 - p1
+            if p3 in primes and set(str(p1)) == set(str(p2)) == set(str(p3)):
+                print p1, p2, p3, str(p1) + str(p2) + str(p3)
+
+
 
 if __name__ == "__main__":
     main()
