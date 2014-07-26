@@ -7,8 +7,7 @@ def get_primes_before_10000():
             primes.append(candidate)
         candidate += 2
 
-def main():
-    get_primes_before_10000()
+def print_prime_permutation():
     idx = 0
     for p1 in primes:
         idx += 1
@@ -19,7 +18,9 @@ def main():
             if p3 in primes and set(str(p1)) == set(str(p2)) == set(str(p3)):
                 print p1, p2, p3, str(p1) + str(p2) + str(p3)
 
-
+def main():
+    get_primes_before_10000()
+    print_prime_permutation()
 
 if __name__ == "__main__":
     main()
