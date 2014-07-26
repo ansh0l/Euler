@@ -9,39 +9,32 @@ primes = [2]
 double_squares = [2, 8]
 
 def is_prime(n):
-    can_be_prime = True
-    for p in primes:
-        if p**2 > n:
-            break
-        elif n % p == 0:
-            can_be_prime = False
-            break
-    return can_be_prime
-
-def holds_goldbach_conjecture(n):
-    idx_p, idx_ds = 0, 0
-    len_p, len_ds = len(primes) - 1, len(double_squares) - 1
-    while idx_p <= len_p or idx_ds <= len_ds:
-        if primes[idx_p] + double_squares[idx_ds] > n and idx_ds < len_ds:
-            idx_ds += 1
-        elif primes[idx_p] + double_squares[idx_ds] < n and idx_p < len_p:
-            idx_p += 1
-        else:
-            return True
-    return False
+    return all(n % p for p in primes if p**2 <= n) 
 
 def is_odd(n):
-    return n%2 == 0
+    return n % 2 == 1
+
+def holds_goldbach_conjecture(n):
+    holds = False
+    for ds in double_squares:
+        if ds > n or holds: 
+            break
+        for p in primes:
+            if p + ds > n: 
+                break
+            elif p + ds == n:
+                holds = True
+                break
+    print n, holds
+    return holds 
 
 def main():
     n = 3
     while True:
-        double_squares.insert(0, 2*(n**2))
+        double_squares.append(2*(n**2))
         if is_prime(n):
             primes.append(n)
-            print n
         elif is_odd(n) and not holds_goldbach_conjecture(n):
-            print n
             break
         n += 1
 
