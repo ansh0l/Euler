@@ -34,6 +34,5 @@ def main():
         total_selections += get_combinatoric_selections(n)
     print total_selections
 
-
 if __name__ == "__main__":
     main()
