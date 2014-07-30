@@ -1,4 +1,4 @@
-from collections import counter
+from collections import Counter
 
 suites = {
     'C' : "Club",
@@ -17,6 +17,7 @@ values = {
     '8' : 8,
     '9' : 9,
     '10' : 10,
+    'T' : 10,
     'J' : 11, 
     'Q' : 12,
     'K' : 13,
@@ -34,7 +35,7 @@ class Card(object):
         if len(card) == 2:
             self.value = values[card[0]]
             self.suite = suites[card[1]]
-        else #len(card) == 3 #Example 10C, 10S
+        else: #len(card) == 3 #Example 10C, 10S
             self.value = values[card[:2]]
             self.suite = suites[card[2]]
 
@@ -52,6 +53,7 @@ class Hand(object):
                 not all(type(c) == Card for c in cards):
             raise InvalidHand
         self.cards = cards
+        self.get_rank()
 
     def values(self):
         return sorted([c.value for c in self.cards])
@@ -104,22 +106,32 @@ class InvalidGame(Exception):
 
 class Game(object):
 
-    def __init__(self, hands = []):
-        if type(hands) != list or len(hands) != 2 or \
-                not all(type(h) == Hand for h in hands):
+    def __init__(self, hands = [], game_string = ""):
+        if game_string:
+            card_strings = game_string.split()
+            cards = [Card(string) for string in card_strings]
+            hands = [Hand(cards[:5]), Hand(cards[5:])]
+        elif type(hands) != list or len(hands) != 2 \
+                or not all(type(h) == Hand for h in hands):
             raise InvalidGame
         self.hands = hands
 
-    def compare_hands(hands = self.hands)
+    def compare_hands(self, hands = []):
         if hand[0].rank != hand[1].rank:
             return 0 if hand[0].rank > hand[1].rank else 1
 
+
 def construct_game(string):
+    game = Game(game_string = string)
+    return game.compare_hands()
 
 
 def main():
+    wins_player_A
     with open("poker.txt", "r") as f:
-        game = construct_game(f.readline())
+         wins_player_A = (construct_game(f.readline()) + 1) % 2
+    print wins_player_A
+
 
 if __name__ == "__main__":
     main()
