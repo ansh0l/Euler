@@ -60,7 +60,7 @@ class Hand(object):
 
     def print_values(self):
         return "{} {} {} {}".format(self.card_values(),
-                                    self.cards_desc,
+                                    self.cards_by_hand,
                                     "%2d" % self.rank,
                                     self.combination)
 
@@ -81,7 +81,7 @@ class Hand(object):
         counter_values = Counter(self.values())
         counter_suites = Counter(self.suites())
 
-        self.cards_desc = self.values_desc()
+        self.cards_by_hand = self.values_desc()
         if len(counter_suites.keys()) == 1 and set(values) == set(range(10, 15)):
             self.rank = 1
             self.combination = "Royal Flush"
@@ -93,13 +93,13 @@ class Hand(object):
             if counter_values.values()[0] in [1, 4]:
                 self.rank = 3
                 self.combination = "Four Of A Kind"
-                if self.cards_desc[0] != self.cards_desc[1]:
-                    self.cards_desc = self.cards_desc[1:] + self.cards_desc[:1]
+                if self.cards_by_hand[0] != self.cards_by_hand[1]:
+                    self.cards_by_hand = self.cards_by_hand[1:] + self.cards_by_hand[:1]
             else:
                 self.rank = 4
                 self.combination = "Full House"
-                if self.cards_desc[0] != self.cards_desc[2]:
-                    self.cards_desc = self.cards_desc[2:] + self.cards_desc[:2]
+                if self.cards_by_hand[0] != self.cards_by_hand[2]:
+                    self.cards_by_hand = self.cards_by_hand[2:] + self.cards_by_hand[:2]
         elif len(counter_suites.keys()) == 1 :
             self.rank = 5
             self.combination = "Flush"
@@ -110,27 +110,27 @@ class Hand(object):
             if 3 in counter_values.values():
                 self.rank = 7
                 self.combination = "Three Of A Kind"
-                if not (self.cards_desc[0] == self.cards_desc[2]) :
-                    if not(self.cards_desc[1] == self.cards_desc[2]):
-                        self.cards_desc = self.cards_desc[2:] + self.cards_desc[:2]
+                if not (self.cards_by_hand[0] == self.cards_by_hand[2]) :
+                    if not(self.cards_by_hand[1] == self.cards_by_hand[2]):
+                        self.cards_by_hand = self.cards_by_hand[2:] + self.cards_by_hand[:2]
                     else:
-                        self.cards_desc = self.cards_desc[1:4] + self.cards_desc[0] + self.cards_desc[4]
+                        self.cards_by_hand = self.cards_by_hand[1:4] + self.cards_by_hand[:1] + self.cards_by_hand[4:]
             else:
                 self.rank = 8
                 self.combination = "Double Pair"
-                if self.cards_desc[0] != self.cards_desc[1]:
-                    self.cards_desc = self.cards_desc[1:] + self.cards_desc[:1]
-                elif self.cards_desc[2] != self.cards_desc[3]:
-                    self.cards_desc = self.cards_desc[3:] + self.cards_desc[:3]
+                if self.cards_by_hand[0] != self.cards_by_hand[1]:
+                    self.cards_by_hand = self.cards_by_hand[1:] + self.cards_by_hand[:1]
+                elif self.cards_by_hand[2] != self.cards_by_hand[3]:
+                    self.cards_by_hand = self.cards_by_hand[3:] + self.cards_by_hand[:3]
         elif len(counter_values.keys()) == 4:
             self.rank = 9
             self.combination = "Pair"
-            if self.cards_desc[1] == self.cards_desc[2]:
-                self.cards_desc = self.cards_desc[1:3] + self.cards_desc[:1] + self.cards_desc[3:]
-            elif self.cards_desc[2] == self.cards_desc[3]:
-                self.cards_desc = self.cards_desc[2:4] + self.cards_desc[:2] + self.cards_desc[4:]
-            elif self.cards_desc[3] == self.cards_desc[4]:
-                self.cards_desc = self.cards_desc[3:] + self.cards_desc[:3]
+            if self.cards_by_hand[1] == self.cards_by_hand[2]:
+                self.cards_by_hand = self.cards_by_hand[1:3] + self.cards_by_hand[:1] + self.cards_by_hand[3:]
+            elif self.cards_by_hand[2] == self.cards_by_hand[3]:
+                self.cards_by_hand = self.cards_by_hand[2:4] + self.cards_by_hand[:2] + self.cards_by_hand[4:]
+            elif self.cards_by_hand[3] == self.cards_by_hand[4]:
+                self.cards_by_hand = self.cards_by_hand[3:] + self.cards_by_hand[:3]
         else:
             self.rank = 10
             self.combination = "High Card"
@@ -158,24 +158,22 @@ class Game(object):
         if hands[0].rank != hands[1].rank:
             winner = 0 if hands[0].rank < hands[1].rank else 1
         else:
-            winner = 0 if hands[0].cards_desc > hands[1].cards_desc else 1
+            winner = 0 if hands[0].cards_by_hand > hands[1].cards_by_hand else 1
         print "%s\n%s\nwinner: %s\n" %(hands[0].print_values(), hands[1].print_values(), str(winner))
         return winner
 
 
 def construct_game(string):
-    try: 
-        game = Game(game_string = string)
-        return game.compare_hands()
-    except:
-        return 0
+    game = Game(game_string = string)
+    return game.compare_hands()
 
 def main():
     wins_player_A = 0
     with open("poker.txt", "r") as f:
         games = f.read().split("\n")
     for game in games:
-        wins_player_A += (construct_game(game) + 1 ) % 2
+        if game:
+            wins_player_A += ((construct_game(game) + 1 ) % 2)
     print wins_player_A
 
 
