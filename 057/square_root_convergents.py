@@ -1,7 +1,5 @@
-from fractions import Fraction as frac
-
-expression = "(f(1) + (f(1)/f(2)))"
 """
+expression = "(f(1) + (f(1)/f(2)))"
 One way is to replace f(2) with expression, but at the 1000th times, that's too much nesting
 
     1 + 1/2
@@ -23,3 +21,13 @@ The other way si to identify patterns. Numbers we are given:
  577 / 408    |     577 = 169*2+239; 408 = 169+239
 1393 / 985    |     1393 = 408*2+577; 985 = 577+408
 """
+
+numerator=3
+denominator=2
+count = 0
+for iterator in range(1000):
+    if len(str(numerator)) > len(str(denominator)):
+       count += 1
+    numerator += denominator*2
+    denominator = numerator - denominator
+print count
