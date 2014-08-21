@@ -8,4 +8,5 @@ for a in range(1, 101):
         sigma = digital_sum(a, b)
         if sigma > biggest_sum:
             biggest_sum = sigma
-            print a, b, sigma
+
+print biggest_sum
