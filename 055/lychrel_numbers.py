@@ -13,16 +13,13 @@ def is_palindrome(num):
 def is_lychrel_number(num):
     new_num = num
     for i in range(MAX_ITERATIONS):
-        if is_palindrome(new_num):
-            print num, new_num 
-            return True
         new_num += reverse(new_num)
-    return False
+        if is_palindrome(new_num):
+            return False 
+    return True
         
 sigma = 0
 for num in range(0, 10000):
     if is_lychrel_number(num):
         sigma += 1
-    else:
-        print num
 print sigma
