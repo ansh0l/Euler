@@ -8,21 +8,6 @@ delta = 6, numbers_on_diagonal = 31, 37, 43, 49
 with open("primes.million.txt", "r") as f:
     primes = [int(p) for p in f.read().split()]
 
-side_length = 3
-CORNERS = 4
-delta = 4
-number = 9
-#diagonal_numbers = [1, 3, 5, 7, 9]
-#prime_diagonal_numbers = [3, 5, 7]
-#while len(diagonal_numbers) < 10 * len(prime_diagonal_numbers):
-#    side_length += 2 #since 2 edges added in each spiral
-#    for c in range(CORNERS):
-#        number += delta
-#        if number in primes:
-#            prime_diagonal_numbers.append(number)
-#        diagonal_numbers.append(number)
-#    delta += 2
-
 def is_prime(number):
     for prime in primes:
         if prime**2 > number:
@@ -31,12 +16,17 @@ def is_prime(number):
             return False
     return True 
 
+side_length = 3
+CORNERS = 4
+delta = 4
+number = 9
+
 MILLION = 1000000
 
-diagonal_numbers = 5 
-prime_diagonal_numbers = 3
+diagonal_numbers = 5 #[1, 3, 5, 7, 9] 
+prime_diagonal_numbers = 3 #[3, 5, 7]
 while diagonal_numbers < 10 * prime_diagonal_numbers:
-    side_length += 2 #since 2 edges added in each spiral
+    side_length += 2 # 2 edges added every spiral
     for c in range(CORNERS):
         number += delta
         if number in primes or ( number > MILLION and is_prime(number)):
