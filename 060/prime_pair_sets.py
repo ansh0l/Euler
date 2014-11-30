@@ -27,8 +27,31 @@ The assumption to be made is that most of them won't exist, though this
 ensures the TimeComplexity is O(n**2) always (don't think TC matters much)
 """
 
+from collections import defaultdict
+
+def is_prime(n, primes):
+    for p in primes:
+        if n % p == 0:
+            return False
+    return True
+
+joining = lambda x, y: (int(str(x) + str(y)), int(str(y) + str(x)))
+
+def get_node_dict(primes):
+    length = len(primes)
+    d = defaultdict(lambda: [])
+    for i in range(1, length):
+        for j in range(0, i):
+            joins = joining(i, j)
+            if is_prime(joins[0], primes) and is_prime(joins[1], primes):
+                d[i].append(j)
+    print "\n".join("%s: %s" % (str(k), str(v)) for k, v in d.items())
+
 def main():
-    pass
+    with open("primes.million.txt", "r") as f:
+        primes = [int(st) for st in f.read().split()]
+    primes = primes[:1000]
+    get_node_dict(primes)
 
 if __name__ == "__main__":
-    main(
+    main()
