@@ -36,43 +36,40 @@ Solution:
     Hence,
         k = (-1*-1 + math.sqrt((-1)**2 - 4*3*-2*c1))/(2*3)
     =>  k = 1/6.0 + math.sqrt(1 + 24*c1)/6.0
-    =>  k = 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y + 3*x**2 - x))/6.0
+    =>  j = 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y + 3*x**2 - x))/6.0
     and
-        j = 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y - 3*x**2 + x))/6.0
+        k = 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y - 3*x**2 + x))/6.0
     and both j, k must be integer
 """
 
 def get_pentagonal_number(n):
-    return n * (3*n - 1) / 2
+    return (n * (3*n - 1)) / 2
 
 def is_pentagonal_number(x):
     n = int((math.sqrt(24*x + 1) + 1)/6)
     return x > 0 and n*(3*n - 1)/2 == x
 
-get_k = lambda x, y: 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y + 3*x**2 - x))/6.0
-get_j = lambda x, y: 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y - 3*x**2 + x))/6.0
+get_j = lambda x, y: 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y + 3*x**2 - x))/6.0
+get_k = lambda x, y: 1/6.0 + math.sqrt(1 + 12*(3*y**2 - y - 3*x**2 + x))/6.0
 
 def main():
     y = 1
     solutions = []
-    found = True
-    while True and found:
+    keep_finding = True
+    while True and keep_finding:
         y += 1
         for x in range(1, y):
             k, j = get_k(x, y), get_j(x, y)
-            if abs(float(int(k)) -k) < 0.01 and abs(float(int(j)) -j) < 0.01:
-                k, j = int(round(k)), int(round(j))
+            if abs(round(k) - k) < 0.0001 and abs(round(j) - j) < 0.0001:
+                #k, j = int(round(k)), int(round(j))
+                k = int(round(k))
                 Pk = get_pentagonal_number(k)
-                Pj = get_pentagonal_number(j)
-                Px = get_pentagonal_number(x)
-                Py = get_pentagonal_number(y)
-                #print "%5d %5d %5d %5d %10d %10d %10d" % (
-                #       k,  j,  x,  y,  Pk,  Pj,  Py - Px)
-                solutions.append(Py-Px)
-            if len(solutions) > 5000:
-                found = False
+                solutions.append(Pk)
+            if len(solutions) > 10000:
+                keep_finding = False
                 break
-    print sorted(solutions)
+    sorted_solutions = sorted(solutions)
+    print sorted_solutions[:10]
 
 if __name__ == "__main__":
     main()
