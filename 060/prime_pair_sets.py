@@ -13,45 +13,50 @@ Question:
 """
 
 """
-Solution:
-
-This looks like a graph problem so it seems to me.
-
-Essentially, if we connect every two vertices, which have this property
-    (eg 3 -> 7, 3-> 109, 3 -> 673) and so on, then we are looking for a
-    completely connected graph with 5 vertices (i.e., the number of edges
-    must be 5C2 = 10 between the 5 edges)
-
-If we have prime numbers less than X, then total edges = O(n**2)
-The assumption to be made is that most of them won't exist, though this
-ensures the TimeComplexity is O(n**2) always (don't think TC matters much)
+DP -> Find sets of 3, sets of 4, and so on
 """
 
 from collections import defaultdict
+from itertools import combinations
 
-def is_prime(n, primes):
+with open("primes.million.txt", "r") as f:
+    primes = [int(st) for st in f.read().split()]
+primes = primes[1:1000]
+
+def is_prime(n):
     for p in primes:
+        if p**2 > n:
+            break
         if n % p == 0:
             return False
     return True
 
-joining = lambda x, y: (int(str(x) + str(y)), int(str(y) + str(x)))
+is_prime_joining = lambda x, y: is_prime(int(str(x) + str(y))) and is_prime(int(str(y) + str(x)))
 
-def get_node_dict(primes):
-    length = len(primes)
-    d = defaultdict(lambda: [])
-    for i in range(1, length):
-        for j in range(0, i):
-            joins = joining(i, j)
-            if is_prime(joins[0], primes) and is_prime(joins[1], primes):
-                d[i].append(j)
-    print "\n".join("%s: %s" % (str(k), str(v)) for k, v in d.items())
 
 def main():
-    with open("primes.million.txt", "r") as f:
-        primes = [int(st) for st in f.read().split()]
-    primes = primes[:1000]
-    get_node_dict(primes)
+    one, two, three, four, five = primes, set(), set(), set(), set()
+    for p in primes:
+        for o in one:
+            if is_prime_joining(p, o):
+                two.add((p, o))
+    print "twos done", p, len(two)
+    for p in primes:
+        for t in two:
+            if all(is_prime_joining(x, y) for x, y in combinations(t + (p,), 2)):
+                three.add(t + (p,))
+    print "threes done"
+    for p in primes:
+        for t in three:
+            if all(is_prime_joining(x, y) for x, y in combinations(t + (p,), 2)):
+                four.add(t + (p,))
+    print "fours done"
+    for p in primes:
+        for f in four:
+            if all(is_prime_joining(x, y) for x, y in combinations(f + (p,), 2)):
+                print f + (p,)
+                return
+                five.add(f + (p,))
 
 if __name__ == "__main__":
     main()
