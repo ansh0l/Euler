@@ -1,16 +1,26 @@
 import sys
+import math
+
+"""
+a*x**2 + b*x + c = 0 has the solution 
+x = (-1*b + sqrt(b**2 - 4*a*c))/(2*a)
+"""
 
 def is_triangle(N):
     """
-    n*(n+1)/2
+    A number is Triangle if N = n*(n+1)/2
+    => n**2 + n - 2*N = 0
+    => n = (-1 + sqrt(1 + 8*N))/2
     """
-    pass
+    n = int(round((-1 + math.sqrt(1 + 8*N))/2))
+    return n**2 == N
+    
 
 def is_square(N):
     """
-    n**2
+    A number is Square if N == n**2
     """
-    pass
+    return int(round(math.sqrt(N)))**2 == N
 
 def is_pentagonal(N):
     """
