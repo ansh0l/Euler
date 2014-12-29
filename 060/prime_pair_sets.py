@@ -39,28 +39,11 @@ def is_prime(n):
 is_prime_joining = lambda x, y: is_prime(int(str(x) + str(y))) and is_prime(int(str(y) + str(x)))
 
 def main():
-    one, two, three, four, five = primes, set(), set(), set(), set()
-    for p in primes:
-        for o in one:
-            if is_prime_joining(p, o):
-                two.add((p, o))
-    print "twos done", len(two)
-    for p in primes:
-        for t in two:
-            if all(is_prime_joining(x, y) for x, y in combinations(t + (p,), 2)):
-                three.add(t + (p,))
-    print "threes done", len(three)
-    for p in primes:
-        for t in three:
-            if all(is_prime_joining(x, y) for x, y in combinations(t + (p,), 2)):
-                four.add(t + (p,))
-    print "fours done", len(four)
-    for p in primes:
-        for f in four:
-            if all(is_prime_joining(x, y) for x, y in combinations(f + (p,), 2)):
-                print f + (p,)
-                return
-                five.add(f + (p,))
+    prime_pairs = ((a, b, c, d, e) for a in primes for b in primes for c in primes for d in primes for e in primes if a < b < c < d < e)
+    for pair in prime_pairs:
+        print pair
+        if all(is_prime_joining(a, b) for a, b in combinations(pair, 2)):
+            break
 
 if __name__ == "__main__":
     main()
