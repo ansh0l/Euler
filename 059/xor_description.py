@@ -4,46 +4,48 @@ Actually, this is just a list of words which are commonly used in English langua
 """
 
 from itertools import product
-from string import ascii_lowercase
+from string import ascii_lowercase, ascii_letters, digits
 
 key_options = [''.join(p) for p in product(ascii_lowercase, repeat=3)]
 
 with open("/etc/dictionaries-common/words", "r") as f:
-    dict_words = f.read().split()
+    dict_words = set(f.read().split())
     
 with open("cipher.txt", "r") as f:
     ascii_codes = [int(code) for code in f.read().split(",")]
 
+len_needed = len(ascii_codes)
+len_key = 3
+
 def get_full_key(small_key):
-    len_needed, len_key = len(ascii_codes), len(small_key)
-    return [ord(ch) for ch in small_key]  * (len_needed / len_key + len_needed % len_key)
+    key = [ord(ch) for ch in small_key]
+    return key * (len_needed/len_key) + key[:len_needed%len_key]
 
 def un_xor_values(ascii_codes, full_key):
-    import pdb; pdb.set_trace()
     return ''.join([chr(a^b) for a, b in zip(ascii_codes, full_key)])
+
+characters = set(ascii_letters + digits)
+
+
 
 for key in key_options:
     full_key = get_full_key(key)
     possible_text = un_xor_values(ascii_codes, full_key)
     count_actual_words = 0
-    possible_words = possible_text.split(",")
-    if len(possible_words) < 2:
-        possible_words = possible_text.split(",")
-    elif len(possible_words) < 2:
-        possible_words = possible_text.split(".")
-    elif len(possible_words) < 2:
-        possible_words = possible_text.split(" ")
+    separators = ",. \n"
 
-    #print possible_text
-    import pdb; pdb.set_trace()
+    possible_words = [possible_text]
+    for sep in separators:
+        old_possible_words = possible_words
+        possible_words = []
+        for word in old_possible_words:
+            possible_words += word.split(sep)
+
     if len(possible_words) > 50:
-        print len(possible_words), key
-        print possible_words
         for idx, word in enumerate(possible_words):
             if word in dict_words:
                 count_actual_words += 1
-            elif idx > 10 and  count_actual_words < .5 * len(possible_words):
-                break
-        if count_actual_words > .8* len(possible_words):
-            break
+
+        if count_actual_words > .5* len(possible_words):
             print count_actual_words, key, float(count_actual_words)/len(possible_words)*100
+            print possible_text
