@@ -20,19 +20,23 @@ from collections import defaultdict
 from itertools import combinations
 
 with open("primes.million.txt", "r") as f:
-    primes = [int(st) for st in f.read().split()]
-primes = primes[1:1000]
+    all_primes = [int(st) for st in f.read().split()]
+primes = all_primes[1:1000]
+largest_prime = all_primes[-1]
+all_primes = set(all_primes)
 
 def is_prime(n):
-    for p in primes:
-        if p**2 > n:
-            break
-        if n % p == 0:
-            return False
-    return True
+    if n < largest_prime:
+        return n in primes
+    elif n < primes[-1]**2:
+        for p in primes:
+            if p**2 > n:
+                break
+            if n % p == 0:
+                return False
+        return True
 
 is_prime_joining = lambda x, y: is_prime(int(str(x) + str(y))) and is_prime(int(str(y) + str(x)))
-
 
 def main():
     one, two, three, four, five = primes, set(), set(), set(), set()
@@ -40,17 +44,17 @@ def main():
         for o in one:
             if is_prime_joining(p, o):
                 two.add((p, o))
-    print "twos done", p, len(two)
+    print "twos done", len(two)
     for p in primes:
         for t in two:
             if all(is_prime_joining(x, y) for x, y in combinations(t + (p,), 2)):
                 three.add(t + (p,))
-    print "threes done"
+    print "threes done", len(three)
     for p in primes:
         for t in three:
             if all(is_prime_joining(x, y) for x, y in combinations(t + (p,), 2)):
                 four.add(t + (p,))
-    print "fours done"
+    print "fours done", len(four)
     for p in primes:
         for f in four:
             if all(is_prime_joining(x, y) for x, y in combinations(f + (p,), 2)):
