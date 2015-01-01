@@ -24,6 +24,9 @@ def get_full_key(small_key):
 def un_xor_values(ascii_codes, full_key):
     return ''.join([chr(a^b) for a, b in zip(ascii_codes, full_key)])
 
+def un_xor_text_ascii(ascii_codes, full_key):
+    return sum([a^b for a, b in zip(ascii_codes, full_key)])
+
 characters = set(ascii_letters + digits)
 
 
@@ -49,3 +52,4 @@ for key in key_options:
         if count_actual_words > .5* len(possible_words):
             print count_actual_words, key, float(count_actual_words)/len(possible_words)*100
             print possible_text
+            print un_xor_text_ascii(ascii_codes, full_key)
