@@ -74,17 +74,18 @@ def is_octagonal(N):
 is_valid = lambda x: 999 < x < 10000 and 9 < x % 100
 
 def get_numbers():
-    triangles = {triangle(n) for n in range(150) if is_valid(triangle(n))}
-    squares = {square(n) for n in range(150) if is_valid(square(n))}
-    pentagonals = {pentagonal(n) for n in range(150) if is_valid(pentagonal(n))}
-    hexagonals = {hexagonal(n) for n in range(150) if is_valid(hexagonal(n))}
-    heptagonals = {heptagonal(n) for n in range(150) if is_valid(heptagonal(n))}
-    octagonals = {octagonal(n) for n in range(150) if is_valid(octagonal(n))}
-    return triangles, squares, pentagonals, hexagonals, heptagonals, octagonals
+    tria = {str(triangle(n)) for n in range(150) if is_valid(triangle(n))}
+    squa = {str(square(n)) for n in range(150) if is_valid(square(n))}
+    pent = {str(pentagonal(n)) for n in range(150) if is_valid(pentagonal(n))}
+    hexa = {str(hexagonal(n)) for n in range(150) if is_valid(hexagonal(n))}
+    hept = {str(heptagonal(n)) for n in range(150) if is_valid(heptagonal(n))}
+    octa = {str(octagonal(n)) for n in range(150) if is_valid(octagonal(n))}
+    return tria, squa, pent, hexa, hept, octa
 
 def main():
-    numbers = get_numbers()
-    for n in numbers: print n, "\n\n"
+    number_sets = get_numbers()
+    l = len(number_sets)
+    for number in number_sets[0]:
 
 if __name__ == "__main__":
     main()
