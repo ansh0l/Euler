@@ -59,7 +59,7 @@ def is_heptagonal(N):
     n = int(round((3 + sqrt(9 + 40*N))/10))
     return N == heptagonal(n)
 
-ocatagonal = lambda n: n*(3*n-2)
+octagonal = lambda n: n*(3*n-2)
 
 def is_octagonal(N):
     """
@@ -68,19 +68,23 @@ def is_octagonal(N):
     => n = (2 + sqrt(4 + 16*N))/6
     """
     n = int(round((2 + math.sqrt(4 + 16*N))/6))
-    return N == ocatagonal(n)
+    return N == octagonal(n)
 
 
 is_valid = lambda x: 999 < x < 10000 and 9 < x % 100
 
 def get_numbers():
-    triangle, square, pentagonal = set(), set(), set()
-    hexagonal, heptagonal, octagonal = set(), set(), set()
-    
+    triangles = {triangle(n) for n in range(150) if is_valid(triangle(n))}
+    squares = {square(n) for n in range(150) if is_valid(square(n))}
+    pentagonals = {pentagonal(n) for n in range(150) if is_valid(pentagonal(n))}
+    hexagonals = {hexagonal(n) for n in range(150) if is_valid(hexagonal(n))}
+    heptagonals = {heptagonal(n) for n in range(150) if is_valid(heptagonal(n))}
+    octagonals = {octagonal(n) for n in range(150) if is_valid(octagonal(n))}
+    return triangles, squares, pentagonals, hexagonals, heptagonals, octagonals
 
 def main():
-    get_numbers()
-    pass
+    numbers = get_numbers()
+    for n in numbers: print n, "\n\n"
 
 if __name__ == "__main__":
     main()
