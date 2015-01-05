@@ -6,6 +6,8 @@ a*x**2 + b*x + c = 0 has the solution
 x = (-1*b + sqrt(b**2 - 4*a*c))/(2*a)
 """
 
+triangle = lambda n: n*(n+1)/2
+
 def is_triangle(N):
     """
     A number is Triangle if N == n*(n+1)/2
@@ -13,15 +15,18 @@ def is_triangle(N):
     => n = (-1 + sqrt(1 + 8*N))/2
     """
     n = int(round((-1 + math.sqrt(1 + 8*N))/2))
-    return N == n*(n+1)/2
-    
+    return N == triangle(n)
+
+square = lambda n: n**2
 
 def is_square(N):
     """
     A number is Square if N == n**2
     """
     n = int(round(math.sqrt(N)))
-    return N == n**2
+    return N == square(n)
+
+pentagonal = lambda n: n*(3*n-1)/2
 
 def is_pentagonal(N):
     """
@@ -30,8 +35,9 @@ def is_pentagonal(N):
     => n = (1 + sqrt(1 + 24*N))/6
     """
     n = int(round((1 + math.sqrt(1 + 24*N))/6))
-    return N == n*(3*n-1)/2
+    return N == pentagonal(n)
 
+hexagonal = lambda n: n*(2*n-1)
 
 def is_hexagonal(N):
     """
@@ -40,7 +46,9 @@ def is_hexagonal(N):
     => n = (1 + sqrt(1 + 8*N))/4
     """
     n = int(round((1 + math.sqrt(1 + 8*N))/4))
-    return N == n*(2*n-1)
+    return N == hexagonal(n)
+
+heptagonal = lambda n: n*(5*n-3)/2
 
 def is_heptagonal(N):
     """
@@ -49,7 +57,9 @@ def is_heptagonal(N):
     => n = (3 + sqrt(9 + 40*N))/10
     """
     n = int(round((3 + sqrt(9 + 40*N))/10))
-    return N == n*(5*n-3)/2
+    return N == heptagonal(n)
+
+ocatagonal = lambda n: n*(3*n-2)
 
 def is_octagonal(N):
     """
@@ -58,9 +68,18 @@ def is_octagonal(N):
     => n = (2 + sqrt(4 + 16*N))/6
     """
     n = int(round((2 + math.sqrt(4 + 16*N))/6))
-    return N == n*(3*n-2)
+    return N == ocatagonal(n)
+
+
+is_valid = lambda x: 999 < x < 10000 and 9 < x % 100
+
+def get_numbers():
+    triangle, square, pentagonal = set(), set(), set()
+    hexagonal, heptagonal, octagonal = set(), set(), set()
+    
 
 def main():
+    get_numbers()
     pass
 
 if __name__ == "__main__":
