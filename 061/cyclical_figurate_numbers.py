@@ -110,34 +110,33 @@ def get_numbers():
 
 def find_cycle(sets, start=[], original=""):
     """
-    Let numbers be {abcd, cdef, efgh, ghij, ijkl, klab}
+    Let numbers be {abcd, cdef, efgh, ghij, ijkl, klmn},
+    where mn == ab
     """
-    abcd = sets[0]
+    abcd, cdef, efgh, ghij, ijkl, klmn = sets
     for ab in abcd:
-        for cd in abcd[ab]:
-            cdef = sets[1]
-            if cd in cdef:
-                for ef in cdef[cd]:
-                    efgh = sets[2]
-                    if ef in efgh:
-                        for gh in efgh[ef]:
-                            ghij = sets[3]
-                            if gh in ghij:
-                                for ij in ghij[gh]:
-                                    ijkl = sets[4]
-                                    if ij in ijkl:
-                                        for kl in ijkl[ij]:
-                                            klab = sets[5]
-                                            if kl in klab:
-                                                for ab in klab[kl]:
-                                                    if ab in abcd:
-                                                        return ab + cd + ef + ij + kl
+      for cd in abcd[ab]:
+        if cd in cdef:
+          for ef in cdef[cd]:
+            if ef in efgh:
+              for gh in efgh[ef]:
+                if gh in ghij:
+                  for ij in ghij[gh]:
+                    if ij in ijkl:
+                      for kl in ijkl[ij]:
+                        if kl in klmn:
+                          for mn in klmn[kl]:
+                            cycle = ab + cd + ef + gh + ij + kl + mn
+                            print cycle
+                            if mn == ab:
+                              return ab + cd + ef + gh + ij + kl
 
 def main():
     number_sets = get_numbers()
     cycle = find_cycle(number_sets)
-    print cycle
-    print sum(map(int, [cycle[0:4],cycle[2:6], cycle[4:8], cycle[6:10], cycle[8:12], cycle[12:] + cycle[:2]]))
+    if cycle:
+        print cycle
+        print sum(map(int, [cycle[0:4],cycle[2:6], cycle[4:8], cycle[6:10], cycle[8:12], cycle[10:] + cycle[:2]]))
 
 if __name__ == "__main__":
     main()
