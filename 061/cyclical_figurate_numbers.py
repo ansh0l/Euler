@@ -58,7 +58,7 @@ def is_heptagonal(N):
     => 5*n**2 - 3*n - 2*N == 0
     => n = (3 + sqrt(9 + 40*N))/10
     """
-    n = int(round((3 + sqrt(9 + 40*N))/10))
+    n = int(round((3 + math.sqrt(9 + 40*N))/10))
     return N == heptagonal(n)
 
 octagonal = lambda n: n*(3*n-2)
@@ -67,9 +67,9 @@ def is_octagonal(N):
     """
     A number is octagonal if N == n*(3*n-2)
     => 3*n**2 - 2*n - N == 0
-    => n = (2 + sqrt(4 + 16*N))/6
+    => n = (2 + sqrt(4 + 12*N))/6
     """
-    n = int(round((2 + math.sqrt(4 + 16*N))/6))
+    n = int(round((2 + math.sqrt(4 + 12*N))/6))
     return N == octagonal(n)
 
 
