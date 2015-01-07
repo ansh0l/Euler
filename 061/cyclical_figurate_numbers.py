@@ -1,5 +1,7 @@
-import sys
 import math
+import sys
+
+from collections import defaultdict
 
 """
 a*x**2 + b*x + c = 0 has the solution 
@@ -73,19 +75,42 @@ def is_octagonal(N):
 
 is_valid = lambda x: 999 < x < 10000 and 9 < x % 100
 
+class DD(defaultdict):
+    def __init__(self, f=lambda: [], *args, **kwargs):
+        return super(DD, self).__init__(f, *args, **kwargs)
+        
+
 def get_numbers():
-    tria = {str(triangle(n)) for n in range(150) if is_valid(triangle(n))}
-    squa = {str(square(n)) for n in range(150) if is_valid(square(n))}
-    pent = {str(pentagonal(n)) for n in range(150) if is_valid(pentagonal(n))}
-    hexa = {str(hexagonal(n)) for n in range(150) if is_valid(hexagonal(n))}
-    hept = {str(heptagonal(n)) for n in range(150) if is_valid(heptagonal(n))}
-    octa = {str(octagonal(n)) for n in range(150) if is_valid(octagonal(n))}
+    tria, squa, pent, hexa, hept, octa = DD(), DD(), DD(), DD(), DD(), DD()
+
+    temp = {str(triangle(n)) for n in range(150) if is_valid(triangle(n))}
+    for num in temp:
+        tria[num[:2]].append(num[2:])
+
+    temp = {str(square(n)) for n in range(150) if is_valid(square(n))}
+    for num in temp:
+        squa[num[:2]].append(num[2:])
+
+    temp = {str(pentagonal(n)) for n in range(150) if is_valid(pentagonal(n))}
+    for num in temp:
+        pent[num[:2]].append(num[2:])
+
+    temp = {str(hexagonal(n)) for n in range(150) if is_valid(hexagonal(n))}
+    for num in temp:
+        hexa[num[:2]].append(num[2:])
+
+    temp = {str(heptagonal(n)) for n in range(150) if is_valid(heptagonal(n))}
+    for num in temp:
+        hept[num[:2]].append(num[2:])
+
+    temp = {str(octagonal(n)) for n in range(150) if is_valid(octagonal(n))}
+    for num in temp:
+        octa[num[:2]].append(num[2:])
+
     return tria, squa, pent, hexa, hept, octa
 
 def main():
     number_sets = get_numbers()
-    l = len(number_sets)
-    for number in number_sets[0]:
 
 if __name__ == "__main__":
     main()
