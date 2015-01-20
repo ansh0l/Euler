@@ -38,3 +38,11 @@ for num in range(2, MAX):
 
 t2 = time.time()
 print "Phase 1 took: %s" % (t2-t1)
+
+def phi(n):
+    """
+    Method for calculating phi of n
+    Hunch is any would perform faster than a full blown intersection
+    """
+    # return sum(1 for i in range(2, n-1) if dict_of_factors[n].intersection(dict_of_factors[i]))
+    return sum(1 for i in range(2, n-1) if any(f in dict_of_factors[n] for f in dict_of_factors(i)))
