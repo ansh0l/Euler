@@ -23,8 +23,25 @@ import time
 
 from collections import defaultdict
 
-MAX=10**6
+MAX=10**3
 dict_of_factors = defaultdict(lambda: set())
+maximum = {"max": 1.0, "num": -1}
+
+def phi(num):
+    """
+    Method for calculating phi of n
+    Hunch is any would perform faster than a full blown intersection
+    """
+    # return sum(1 for i in range(2, n-1) if dict_of_factors[n].intersection(dict_of_factors[i]))
+    # return 1 + sum(1 for iterator in range(2, num) if any(factor in dict_of_factors[num] for factor in dict_of_factors(iterator)))
+    count = 1
+    for iterator in range (2, num):
+        for factor in dict_of_factors[iterator]:
+            if factor in dict_of_factors[num]:
+                count += 1
+                break
+    return count
+
 
 t1 = time.time()
 
@@ -37,12 +54,16 @@ for num in range(2, MAX):
         i += num
 
 t2 = time.time()
-print "Phase 1 took: %s" % (t2-t1)
+print "Phase 1 took: %s" % (t2-t1), "\n"
 
-def phi(n):
-    """
-    Method for calculating phi of n
-    Hunch is any would perform faster than a full blown intersection
-    """
-    # return sum(1 for i in range(2, n-1) if dict_of_factors[n].intersection(dict_of_factors[i]))
-    return sum(1 for i in range(2, n-1) if any(f in dict_of_factors[n] for f in dict_of_factors(i)))
+for num in range(2, MAX):
+    totient = float(num)/float(phi(num))
+    if num % 10**4 == 0:
+        print num, time.time() - t2
+    if totient > maximum["max"]:
+        maximum["max"] = totient
+        maximum["num"] = num
+
+t3 = time.time()
+print "Phase 2 took: %s" % (t3-t2), "\n"
+print maximum
