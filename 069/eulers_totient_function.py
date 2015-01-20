@@ -4,7 +4,7 @@ Find n for which n/phi(n) is a maximum
 """
 
 """
-Soluion:
+Solution:
 Implement a Sieve of Erastosthenes like loop which provides a list of factors for all numbers
 Now for each number N, find numbers before it that have a null intersection with N's factors.
 count such n and move on.
@@ -23,7 +23,7 @@ import time
 
 from collections import defaultdict
 
-MAX=10**3
+MAX=10**6
 dict_of_factors = defaultdict(lambda: set())
 maximum = {"max": 1.0, "num": -1}
 
@@ -36,10 +36,13 @@ def phi(num):
     # return 1 + sum(1 for iterator in range(2, num) if any(factor in dict_of_factors[num] for factor in dict_of_factors(iterator)))
     count = 1
     for iterator in range (2, num):
+        is_co_prime = True
         for factor in dict_of_factors[iterator]:
             if factor in dict_of_factors[num]:
-                count += 1
+                is_co_prime = False
                 break
+        if is_co_prime:
+            count += 1
     return count
 
 
