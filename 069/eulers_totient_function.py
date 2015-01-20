@@ -18,3 +18,23 @@ for finding factors
     => O(k**2 * log(k))
 
 """
+
+import time
+
+from collections import defaultdict
+
+MAX=10**6
+dict_of_factors = defaultdict(lambda: set())
+
+t1 = time.time()
+
+for num in range(2, MAX):
+    i = num
+    if num % 10**4 == 0:
+        print num, time.time() - t1
+    while i < MAX:
+        dict_of_factors[i].add(num)
+        i += num
+
+t2 = time.time()
+print "Phase 1 took: %s" % (t2-t1)
